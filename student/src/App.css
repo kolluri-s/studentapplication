@@ -1,0 +1,89 @@
+/* Enhance root container with background, shadow, border-radius */
+#root {
+  max-width: 1280px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1f2f47, #415371); /* dark subtle gradient */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #576db5; /* light violet text */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Add typography styles */
+h1, h2, h3 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #6650a8; /* violet text */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #85b0e5; /* lighter gray text */
+}
+
+/* Styling for buttons inside root */
+button {
+  background: #6945bc;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background: #7737e4;
+}
+
+/* Add some margin and spacing between children */
+#root > * {
+  margin-bottom: 1rem;
+}
+
+
+/*.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+*/
