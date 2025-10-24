@@ -48,7 +48,8 @@ export default function StudentRegistration() {
     }
 
     try {
-      await axios.post("http://localhost:8000/register", {
+      const api = import.meta.env.VITE_API_URL;
+      await axios.post(`${api}/register`, {
         name,
         email,
         password,

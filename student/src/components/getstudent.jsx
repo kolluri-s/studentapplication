@@ -23,8 +23,8 @@ export default function GetStudent() {
     }
 
     try {
-      // Replace the URL below with your backend API endpoint
-      const response = await axios.get(`http://localhost:8000/getstudent/${phone}`);
+      const api = import.meta.env.VITE_API_URL;
+      const response = await axios.get(`${api}/getstudent/${phone}`);
       if (response.data) {
         setResult(response.data);
         setError('');

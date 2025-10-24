@@ -15,7 +15,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/login", form);
+      const api = import.meta.env.VITE_API_URL;
+      const response = await axios.post(`${api}/login`, form);
       if (response.data.success) {
         setError("");
         setSuccessMsg("Login successful! Redirecting...");
