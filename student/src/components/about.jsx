@@ -15,8 +15,8 @@ const AboutPage = () => {
       </section>
       <section className="mt-3">
         <h2 className="text-2xl font-semibold mb-2  text-indigo-700">Contact Us</h2>
-        <p className="text-indigo-900">Email: contact@ourcompany.com</p>
-        <p className="text-indigo-900">Phone: +91 1234567890</p>
+        <a href="mailto:karthikolluri123@gmail.com">Email : karthikolluri123@gmail.com</a>
+        <a href="tel:+919353391766">9353391766</a>
       </section>
     </div>
   );
