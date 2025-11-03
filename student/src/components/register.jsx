@@ -2,67 +2,35 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function StudentRegistration() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    address: "",
+  });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleName = (e) => {
-    setName(e.target.value);
-    setError(false);
-    setSubmitted(false);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    setError(false);
-    setSubmitted(false);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setError(false);
-    setSubmitted(false);
-  };
-
-  const handlePhoneNumber = (e) => {
-    setPhoneNumber(e.target.value);
-    setError(false);
-    setSubmitted(false);
-  };
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
     setError(false);
     setSubmitted(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name.trim() === "" || email.trim() === "" || password.trim() === ""
-    ) {
+    if (!form.name || !form.email || !form.password) {
       setError(true);
       return;
     }
 
     try {
       const api = import.meta.env.VITE_API_URL;
-      await axios.post(`${api}/register`, {
-        name,
-        email,
-        password,
-        phone : phoneNumber,
-        address,
-      });
+      await axios.post(`${api}/register`, form);
       setSubmitted(true);
       setError(false);
-      setName("");
-      setEmail("");
-      setPassword("");
-      setPhoneNumber("");
-      setAddress("");
+      setForm({ name: "", email: "", password: "", phone: "", address: "" });
     } catch (err) {
       console.error("Error saving student:", err);
       setError(true);
@@ -77,7 +45,7 @@ export default function StudentRegistration() {
         </h1>
         {error && (
           <div className="p-3 mb-2 text-white bg-red-500 rounded">
-            Please fill in all fields.
+            Please fill in all required fields.
           </div>
         )}
         {submitted && (
@@ -90,9 +58,10 @@ export default function StudentRegistration() {
             <label className="block mb-1 font-medium text-gray-700">Name</label>
             <input
               type="text"
-              value={name}
-              onChange={handleName}
-              className="w-full px-3 py-2 border rounded  text-black opacity-60"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded text-black opacity-60"
               placeholder="Enter your name"
             />
           </div>
@@ -100,8 +69,9 @@ export default function StudentRegistration() {
             <label className="block mb-1 font-medium text-gray-700">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={handleEmail}
+              name="email"
+              value={form.email}
+              onChange={handleChange}
               className="w-full px-3 py-2 border rounded text-black opacity-60"
               placeholder="Enter your email"
             />
@@ -110,8 +80,9 @@ export default function StudentRegistration() {
             <label className="block mb-1 font-medium text-gray-700">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={handlePassword}
+              name="password"
+              value={form.password}
+              onChange={handleChange}
               className="w-full px-3 py-2 border rounded text-black opacity-60"
               placeholder="Enter your password"
             />
@@ -120,18 +91,20 @@ export default function StudentRegistration() {
             <label className="block mb-1 font-medium text-gray-700">Phone Number</label>
             <input
               type="tel"
-              value={phoneNumber}
-              onChange={handlePhoneNumber}
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
               className="w-full px-3 py-2 border rounded text-black opacity-60"
-              placeholder="Enter your phonenumber"
+              placeholder="Enter your phone number"
             />
           </div>
           <div>
             <label className="block mb-1 font-medium text-gray-700">Address</label>
             <input
               type="text"
-              value={address}
-              onChange={handleAddress}
+              name="address"
+              value={form.address}
+              onChange={handleChange}
               className="w-full px-3 py-2 border rounded text-black opacity-60"
               placeholder="Enter your Address"
             />
@@ -147,4 +120,3 @@ export default function StudentRegistration() {
     </div>
   );
 }
-

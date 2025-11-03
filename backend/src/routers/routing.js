@@ -2,8 +2,8 @@ const express = require("express");
 const Student = require("../models/students");
 const router = new express.Router();
 const bcrypt = require("bcrypt");
-
-
+const jwt =require("jsonwebtoken");
+require('dotenv').config();
 
 
 router.post("/register", async (req, res) => {
@@ -12,7 +12,12 @@ router.post("/register", async (req, res) => {
     const hashedpassword = await bcrypt.hash(password, 10);
     const user = new Student({ name, email, password:hashedpassword, phone, address});
     const createUser = await user.save();
-    res.status(201).send(createUser);
+    const token = jwt.sign(
+      { userId: createUser._id, email: createUser.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    res.status(201).send({ user: createUser, token });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -27,7 +32,12 @@ router.post('/login', async (req, res) => {
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-      return res.send({ success: true, message: "Login successful" });
+      const token = jwt.sign(
+        { userId: user._id, email: user.email }, 
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' } 
+      );
+      return res.send({ success: true, message: "Login successful", token });
     } else {
       return res.status(401).send({ success: false, message: "Invalid email or password" });
     }

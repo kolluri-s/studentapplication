@@ -2,12 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ setIsAuthenticated }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const navigate = useNavigate();
-
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,12 +17,14 @@ export default function Login() {
       const api = import.meta.env.VITE_API_URL;
       const response = await axios.post(`${api}/login`, form);
       if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        setIsAuthenticated(true); 
         setError("");
         setSuccessMsg("Login successful! Redirecting...");
         setTimeout(() => {
           setSuccessMsg("");
-          navigate('/');
-        }, 1500);
+          navigate('/home'); 
+        }, 150);
       } else {
         setError("Invalid email or password");
         setSuccessMsg("");
@@ -53,7 +54,7 @@ export default function Login() {
             required
             value={form.email}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
             placeholder="you@example.com"
           />
         </div>
@@ -67,8 +68,8 @@ export default function Login() {
             required
             value={form.password}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="••••••••"
+            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none  text-gray-700"
+            placeholder="password"
           />
         </div>
 

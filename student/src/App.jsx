@@ -1,56 +1,78 @@
-import { BrowserRouter as Router, Routes, Route,useLocation} from 'react-router-dom';
-import { useEffect} from 'react';
-import Navbar from './components/navbar';
-import Home from './components/home';
-import Register from './components/register';
-import GetStudent from './components/getstudent';
-import AboutPage from './components/about';
-import Login from './components/login';
-import './App.css';
-
-/*function ScrollToHomeOnRefresh() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  
-
-  useEffect(() => {
-    if (location.pathname !== '/') {
-      navigate('/', { replace: true });
-    }
-  }, []);
-
-  return null;
-}*/
-
-function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-}
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./components/login";
+import Register from "./components/Register";
+import Navbar from "./components/navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./components/Home";
+import GetStudent from "./components/GetStudent";
+import About from "./components/About";
 
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   return (
-    <>
-    <div className="container">
-      <Router>
-        <Navbar />
-        <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/getstudent" element={<GetStudent />} />
-            <Route path="/about" element={<AboutPage />} />
-          </Routes>
-      </Router>
-    </div>
-    </>
+    <Router>
+      {isAuthenticated && <Navbar setIsAuthenticated={setIsAuthenticated} />}
+      
+      <Routes>
+        <Route 
+          path="/login" 
+          element={
+            isAuthenticated ? 
+            <Navigate to="/home" replace /> : 
+            <Login setIsAuthenticated={setIsAuthenticated} />
+          } 
+        />
+        
+        <Route 
+          path="/register" 
+          element={
+            isAuthenticated ? 
+            <Navigate to="/home" replace /> : 
+            <Register />
+          } 
+        />
+        
+        <Route 
+          path="/home" 
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Home />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/getstudent" 
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <GetStudent />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/about" 
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <About />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </Router>
   );
 }
 
