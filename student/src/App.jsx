@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./components/login";
 import Register from "./components/register";
 import Navbar from "./components/navbar";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./components/Home";
-import GetStudent from "./components/GetStudent";
-import About from "./components/About";
+import ProtectedRoute from "./components/protectedroute";
+import Home from "./components/home";
+import GetStudent from "./components/getstudent";
+import About from "./components/about";
 
 
 function App() {
