@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentRegistration() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -11,6 +13,7 @@ export default function StudentRegistration() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,6 +25,7 @@ export default function StudentRegistration() {
     e.preventDefault();
     if (!form.name || !form.email || !form.password) {
       setError(true);
+      setErrorMessage("Please fill in all required fields.");
       return;
     }
 
@@ -31,6 +35,9 @@ export default function StudentRegistration() {
       setSubmitted(true);
       setError(false);
       setForm({ name: "", email: "", password: "", phone: "", address: "" });
+      setTimeout(() => {
+        navigate("/login");
+      }, 150);
     } catch (err) {
       console.error("Error saving student:", err);
       setError(true);
@@ -46,7 +53,7 @@ export default function StudentRegistration() {
         {error && (
           <div className="p-3 mb-2 text-white bg-red-500 rounded">
             Please fill in all required fields.
-          </div>
+          </div> 
         )}
         {submitted && (
           <div className="p-3 mb-2 text-white bg-green-500 rounded">
@@ -116,6 +123,15 @@ export default function StudentRegistration() {
             Register
           </button>
         </form>
+        <p className="text-center text-gray-600 text-sm">
+          Already have an account?{" "}
+          <button
+            onClick={() => navigate("/login")}
+            className="text-indigo-600 hover:text-indigo-800 font-medium"
+          >
+            Login here
+          </button>
+        </p>
       </div>
     </div>
   );

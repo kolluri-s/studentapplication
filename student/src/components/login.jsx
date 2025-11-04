@@ -16,6 +16,7 @@ export default function Login({ setIsAuthenticated }) {
     try {
       const api = import.meta.env.VITE_API_URL;
       const response = await axios.post(`${api}/login`, form);
+      console.log(response)
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
         setIsAuthenticated(true); 

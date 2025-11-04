@@ -46,7 +46,6 @@ export default function Navbar({ setIsAuthenticated }) {
           </div>
         </div>
       </nav>
-      {/* Add padding to prevent content from going under fixed navbar */}
       <div className="h-16"></div>
     </>
   );
