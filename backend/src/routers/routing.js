@@ -52,7 +52,6 @@ router.get("/getstudent/:phone", async (req, res) => {
   try {
     const phone = req.params.phone;
     const getData = await Student.findOne({ phone: phone });
-
     if (getData) {
       res.send(getData);
     } else {
@@ -62,5 +61,31 @@ router.get("/getstudent/:phone", async (req, res) => {
     res.status(400).send(err);
   }
 });
+
+router.patch("/forgetpassword", async (req, res) => {
+  try {
+    const { email, oldpassword, newpassword } = req.body;
+    console.log({email,oldpassword,newpassword});
+    const user = await Student.findOne({ email });
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    const isMatch = await bcrypt.compare(oldpassword, user.password);
+    if (!isMatch) {
+      return res.status(401).send({ message: "Old password is incorrect" });
+    }
+    const hashedPassword = await bcrypt.hash(newpassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).send({ message: "Password successfully changed" });
+  } catch (err) {
+    res.status(500).send({ message: "Server error", error: err.message });
+  }
+});
+
+router.get("/test",(req,res)=>{
+  res.send("router is working");
+})
+
 
 module.exports = router;

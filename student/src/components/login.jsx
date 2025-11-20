@@ -46,12 +46,7 @@ export default function Login({ setIsAuthenticated }) {
           Student Management
         </div>
         <div>
-          <Link
-            to="/login"
-            className="bg-white text-indigo-700 font-semibold px-4 py-1 rounded-md shadow-md hover:bg-indigo-100 hover:text-indigo-900 transform hover:scale-105 transition-all duration-300 ease-in-out"
-          >
-            Login
-          </Link>
+          
         </div>
       </nav>
       <div className="max-w-md mx-auto m-30 p-6 bg-amber-100 shadow-lg rounded-md">
