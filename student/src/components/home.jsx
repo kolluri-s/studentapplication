@@ -56,8 +56,6 @@ export default function Home() {
                     Dashboard
                 </h1>
                 <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-                   
-
                     <Link to="/getstudent" className="block bg-white/80 backdrop-blur-md border border-indigo-200 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                         <h2 className="text-2xl font-semibold mb-4 text-indigo-700">Get Details</h2>
                         <p className="text-indigo-900">

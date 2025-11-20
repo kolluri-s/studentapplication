@@ -5,13 +5,14 @@ import Register from "./components/register";
 import Navbar from "./components/navbar";
 import ProtectedRoute from "./components/protectedroute";
 import Home from "./components/home";
+import ForgotPassword from "./components/forgetpass";
 import GetStudent from "./components/getstudent";
 import About from "./components/about";
 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -39,6 +40,15 @@ function App() {
             isAuthenticated ? 
             <Navigate to="/home" replace /> : 
             <Register />
+          } 
+        />
+
+          <Route 
+          path="/forgetpassword" 
+          element={
+            isAuthenticated ? 
+            <Navigate to="/home" replace /> : 
+            <ForgotPassword />
           } 
         />
         
