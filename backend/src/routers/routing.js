@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await Student.findOne({ email: email });
     if (!user) {
-      return res.status(401).send({ success: false, message: "Invalid email or password" });
+      return res.status(401).send({ success: false, message: "Invalid Email ! Click For Register" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
@@ -37,9 +37,11 @@ router.post('/login', async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: '1h' } 
       );
-      return res.send({ success: true, message: "Login successful", token });
-    } else {
-      return res.status(401).send({ success: false, message: "Invalid email or password" });
+      setTimeout(()=>{
+        res.json({ success: true, message: "Login successful", token });
+      },1000);
+    }  else if(!isMatch) {
+      return res.status(401).send({ success: false, message: "Invalid Password ! Click Forgot Password for password changing" });
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -83,9 +85,7 @@ router.patch("/forgetpassword", async (req, res) => {
   }
 });
 
-router.get("/test",(req,res)=>{
-  res.send("router is working");
-})
+
 
 
 module.exports = router;

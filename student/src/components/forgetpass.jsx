@@ -29,48 +29,55 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto m-30 p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Forgot Password</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email</label>
-        <input
-          type="email"
-          placeholder="Enter your registered email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
-        />
-        <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Old Password</label>
-        <input
-          type="password"
-          placeholder="Enter your old password"
-          value={oldpassword}
-          onChange={(e) => setoldpassword(e.target.value)}
-          required
-          className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
-        />
-        <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">New Password</label>
-        <input
-          type="password"
-          placeholder="Enter your new password"
-          value={newpassword}
-          onChange={(e) => setnewpassword(e.target.value)}
-          required
-          className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
-        >
-          {loading ? 'Changing...' : 'Change Password'}
-        </button>
-      </form>
-      {message && (
-        <p className="mt-4 text-center text-green-600 font-medium">{message}</p>
-      )}
-    </div>
+    <>
+      <nav className="fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600/95 backdrop-blur shadow-lg h-14 flex items-center justify-between px-4 animate-slide-down">
+        <div className="text-white text-xl sm:text-2xl font-extrabold tracking-wide">
+          Student Management
+        </div>
+      </nav>
+      <div className="max-w-md mx-auto m-30 p-6 bg-white shadow-md rounded-md">
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Forgot Password</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+          <input
+            type="email"
+            placeholder="Enter your registered email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
+          />
+          <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Old Password</label>
+          <input
+            type="password"
+            placeholder="Enter your old password"
+            value={oldpassword}
+            onChange={(e) => setoldpassword(e.target.value)}
+            required
+            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
+          />
+          <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">New Password</label>
+          <input
+            type="password"
+            placeholder="Enter your new password"
+            value={newpassword}
+            onChange={(e) => setnewpassword(e.target.value)}
+            required
+            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+          >
+            {loading ? 'Changing...' : 'Change Password'}
+          </button>
+        </form>
+        {message && (
+          <p className="mt-4 text-center text-green-600 font-medium">{message}</p>
+        )}
+      </div>
+    </>
   );
 };
 

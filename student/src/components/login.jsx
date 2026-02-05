@@ -8,45 +8,46 @@ export default function Login({ setIsAuthenticated }) {
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const navigate = useNavigate();
+  const [loading, setloading] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setloading(true);
     try {
       const api = import.meta.env.VITE_API_URL;
       const response = await axios.post(`${api}/login`, form);
-      console.log(response)
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
         setIsAuthenticated(true);
         setError("");
-        setSuccessMsg("Login successful! Redirecting...");
+        setSuccessMsg(response.data.message);
         setTimeout(() => {
           setSuccessMsg("");
+          setloading(false);
           navigate('/home');
         }, 150);
-      } else {
-        setError("Invalid email or password");
-        setSuccessMsg("");
+        setForm({ email: "", password: "" });
       }
     } catch (err) {
-      setError("Error logging in. Please try again.");
+      const backmsg = err.response?.data?.message;
+      if (backmsg) {
+        setError(backmsg);
+      } else {
+        setError("Error logging in. Please try again.");
+      }
       setSuccessMsg("");
-      console.error(err);
+      console.error("Login error:", err.response?.data || err);
+    } finally {
+      setTimeout(() => setloading(false), 1000);
     }
-    setForm({ email: "", password: "" });
   };
-
   return (
     <>
       <nav className="fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600/95 backdrop-blur shadow-lg h-14 flex items-center justify-between px-4 animate-slide-down">
         <div className="text-white text-xl sm:text-2xl font-extrabold tracking-wide">
           Student Management
-        </div>
-        <div>
-          
         </div>
       </nav>
       <div className="max-w-md mx-auto m-30 p-6 bg-amber-100 shadow-lg rounded-md">
@@ -84,8 +85,34 @@ export default function Login({ setIsAuthenticated }) {
             />
           </div>
 
-          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">Sign In</button>
-
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center"
+            disabled={loading}
+          >
+            {loading ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12" cy="12" r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                ></path>
+              </svg>
+            ) : (
+              "Sign In"
+            )}
+          </button>
           <p className="mt-4 text-center text-sm text-gray-600">
             Don't have an account?{" "}
             <Link to="/register" className="text-blue-600 hover:underline">Register</Link>
