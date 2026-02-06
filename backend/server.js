@@ -6,7 +6,10 @@ const app = express();
 const port = process.env.PORT || 8000;
 const studentrouter = require("./src/routers/routing");
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://studentapps.in","http://localhost:5173"],
+}));
+
 app.use(express.json());
 app.use(studentrouter);
 
